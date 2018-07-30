@@ -126,7 +126,7 @@ def get_best_move(board, next_player, depth = 0, best_score = {})
       return best_move
     else
       # does the array contain even numbers?
-       if available_spaces.any? {|a| a.to_i % 2 == 0}
+       if available_spaces.any? {|a| a.to_i % 2 == 0 || a.to_i == 0}
           # I only want it to pick from strategic moves
           even_numbers = []
           available_spaces.each { |x| even_numbers << x if x.to_i.even? }
