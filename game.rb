@@ -49,6 +49,53 @@ class Game
     end
   end
 
+
+
+
+
+def get_best_move(board, next_player, depth = 0, best_score = {})
+    available_spaces = []
+    best_move = nil
+    board.each do |s|
+      if s != "X" && s != "O"
+        available_spaces << s
+      end
+    end
+    available_spaces.each do |as|
+      board[as.to_i] = @com
+      if game_is_over(board)
+        best_move = as.to_i
+        board[as.to_i] = as
+        return best_move
+      elsif
+        board[as.to_i] = @hum
+        if game_is_over(board)
+          best_move = as.to_i
+          board[as.to_i] = as
+          return best_move
+        else
+          if as.to_i != 1|| 3 || 5 || 7
+            # I only want it to pick from strategic moves
+            good_moves = []
+            good_moves << as.to_i
+            n = rand(0..good_moves.count)
+            best_move = n.to_i
+            board[n.to_i] = as
+            return best_move
+          else
+            board[as.to_i] = as
+          end
+        end
+      end
+    end
+    if best_move
+      return best_move
+    else
+      n = rand(0..available_spaces.count)
+      return available_spaces[n].to_i
+    end
+  end
+
   def get_best_move(board, next_player, depth = 0, best_score = {})
     available_spaces = []
     best_move = nil
@@ -63,6 +110,7 @@ class Game
         best_move = as.to_i
         board[as.to_i] = as
         return best_move
+
       else
         board[as.to_i] = @hum
         if game_is_over(board)
@@ -70,37 +118,28 @@ class Game
           board[as.to_i] = as
           return best_move
         else
-          if as.to_i == 4
-           best_move = as.to_i
-           board[as.to_i] = as
-          elsif as.to_i == 0
-            board[as.to_i] = as
-          elsif as.to_i == 2
-            board[as.to_i] = as
-          elsif as.to_i == 6
-            board[as.to_i] = as
-          elsif as.to_i == 8
-            board[as.to_i] = as
-          else
-            board[as.to_i] = as
-          end
-          return best_move
+          board[as.to_i] = as
         end
       end
     end
     if best_move
       return best_move
     else
-      n = rand(0..available_spaces.count)
-      return available_spaces[n].to_i
+      available_spaces.each do |as|
+        if as.to_i != 1|| 3 || 5 || 7
+          # I only want it to pick from strategic moves
+          good_moves = []
+          good_moves << as.to_i
+          n = rand(0..good_moves.count)
+          best_move = n.to_i
+          board[n.to_i] = as
+          return best_move
+        else
+          n = rand(0..available_spaces.count)
+          return available_spaces[n].to_i
+        end
+      end
     end
-  end
-
-  def player_first
-    if @hum
-  end
-
-  def computer_first
   end
 
   def game_is_over(b)
