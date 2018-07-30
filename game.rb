@@ -70,7 +70,21 @@ class Game
           board[as.to_i] = as
           return best_move
         else
-          board[as.to_i] = as
+          if as.to_i == 4
+           best_move = as.to_i
+           board[as.to_i] = as
+          elsif as.to_i == 0
+            board[as.to_i] = as
+          elsif as.to_i == 2
+            board[as.to_i] = as
+          elsif as.to_i == 6
+            board[as.to_i] = as
+          elsif as.to_i == 8
+            board[as.to_i] = as
+          else
+            board[as.to_i] = as
+          end
+          return best_move
         end
       end
     end
@@ -80,6 +94,13 @@ class Game
       n = rand(0..available_spaces.count)
       return available_spaces[n].to_i
     end
+  end
+
+  def player_first
+    if @hum
+  end
+
+  def computer_first
   end
 
   def game_is_over(b)
