@@ -20,7 +20,20 @@ class Game
       end
       @view.print_board(@board)
     end
-    # view.end_game_message
+      if tie(@board)
+        @view.tie_message
+      else
+        player = []
+        computer = []
+        @board.each do |b|
+          if b == @com
+            computer << b
+          elsif b == @hum
+            player << b
+          end
+        end
+            player.count > computer.count ? @view.win_message("user") : @view.win_message("the computer")
+      end
   end
 
   def get_human_spot
