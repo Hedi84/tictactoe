@@ -1,8 +1,7 @@
 class View
 
  def print_board(board)
-  # puts " #{board(0)} | #{board(1)} | #{board(2)} \n===+===+===\n #{board(3)} | #{board(4)} | #{board(5)} \n===+===+===\n #{board(6)} | #{board(7)} | #{board(8)} \n"
- puts board(7)
+  puts " #{board[0]} | #{board[1]} | #{board[2]} \n===+===+===\n #{board[3]} | #{board[4]} | #{board[5]} \n===+===+===\n #{board[6]} | #{board[7]} | #{board[8]} \n"
  end
 
   def tie_message
@@ -16,7 +15,7 @@ class View
   def ask_user_for(stuff)
     puts "#{stuff}?"
     print "> "
-    return gets.chomp
+    return gets.chomp.to_i
   end
 
 

@@ -4,14 +4,14 @@ class Game
 
   def initialize
     @view = View.new
-    @board = {"0" => nil, "1" => nil, "2" => nil, "3" => nil, "4" => nil, "5" => nil, "6" => nil, "7" => nil, "8" => nil}
+    @board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
+    @hum = "O"
+    @com = "X"
   end
 
   def start_game
     # start by printing the board
-  puts " #{@board[0]} | #{@board[1]} | #{@board[2]} \n===+===+===\n #{@board[3]} | #{@board[4]} | #{@board[5]} \n===+===+===\n #{@board[6]} | #{@board[7]} | #{@board[8]} \n"
-
-    # @view.print_board(@board)
+    @view.print_board(@board)
     # loop through until the game was won or tied
     until game_is_over(@board) || tie(@board)
       get_human_spot
@@ -156,14 +156,14 @@ def get_best_move(board, next_player, depth = 0, best_score = {})
 
   def game_is_over(b)
 
-    [b[0], b[1], b[2]].uniq.length == 1 && b[2] != nil ||
-    [b[3], b[4], b[5]].uniq.length == 1 && b[4] != nil ||
-    [b[6], b[7], b[8]].uniq.length == 1 && b[6] != nil ||
-    [b[0], b[3], b[6]].uniq.length == 1 && b[6] != nil ||
-    [b[1], b[4], b[7]].uniq.length == 1 && b[4] != nil ||
-    [b[2], b[5], b[8]].uniq.length == 1 && b[2] != nil ||
-    [b[0], b[4], b[8]].uniq.length == 1 && b[4] != nil ||
-    [b[2], b[4], b[6]].uniq.length == 1 && b[2] != nil
+    [b[0], b[1], b[2]].uniq.length == 1 ||
+    [b[3], b[4], b[5]].uniq.length == 1 ||
+    [b[6], b[7], b[8]].uniq.length == 1 ||
+    [b[0], b[3], b[6]].uniq.length == 1 ||
+    [b[1], b[4], b[7]].uniq.length == 1 ||
+    [b[2], b[5], b[8]].uniq.length == 1 ||
+    [b[0], b[4], b[8]].uniq.length == 1 ||
+    [b[2], b[4], b[6]].uniq.length == 1
   end
 
   def tie(b)
