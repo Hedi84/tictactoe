@@ -1,29 +1,45 @@
+require_relative 'view'
+
 class Game
+
   def initialize
+    @view = View.new
     @board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
-    @com = "X" # the computer's marker
-    @hum = "O" # the user's marker
+    @hum = "O"
+    @com = "X"
   end
 
   def start_game
     # start by printing the board
-    puts " #{@board[0]} | #{@board[1]} | #{@board[2]} \n===+===+===\n #{@board[3]} | #{@board[4]} | #{@board[5]} \n===+===+===\n #{@board[6]} | #{@board[7]} | #{@board[8]} \n"
-    puts "Enter [0-8]:"
+    @view.print_board(@board)
     # loop through until the game was won or tied
     until game_is_over(@board) || tie(@board)
       get_human_spot
       if !game_is_over(@board) && !tie(@board)
         eval_board
       end
-      puts " #{@board[0]} | #{@board[1]} | #{@board[2]} \n===+===+===\n #{@board[3]} | #{@board[4]} | #{@board[5]} \n===+===+===\n #{@board[6]} | #{@board[7]} | #{@board[8]} \n"
+      @view.print_board(@board)
     end
-    puts "Game over"
+      if tie(@board)
+        @view.tie_message
+      else
+        player = []
+        computer = []
+        @board.each do |b|
+          if b == @com
+            computer << b
+          elsif b == @hum
+            player << b
+          end
+        end
+            player.count > computer.count ? @view.win_message("user") : @view.win_message("the computer")
+      end
   end
 
   def get_human_spot
     spot = nil
     until spot
-      spot = gets.chomp.to_i
+      spot = @view.ask_user_for("Which number will you mark")
       if @board[spot] != "X" && @board[spot] != "O"
         @board[spot] = @hum
       else
@@ -48,9 +64,6 @@ class Game
       end
     end
   end
-
-
-
 
 
 def get_best_move(board, next_player, depth = 0, best_score = {})
@@ -125,9 +138,9 @@ def get_best_move(board, next_player, depth = 0, best_score = {})
     if best_move
       return best_move
     else
-      # does the array contain even numbers?
+      # does the array contain even numbers or 0?
        if available_spaces.any? {|a| a.to_i % 2 == 0 || a.to_i == 0}
-          # I only want it to pick from strategic moves
+          # I only want it to pick from strategic moves, so the corners.
           even_numbers = []
           available_spaces.each { |x| even_numbers << x if x.to_i.even? }
           even_numbers << 0 if available_spaces.include? "0"
